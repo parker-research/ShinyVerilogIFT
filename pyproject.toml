@@ -4,19 +4,20 @@ version = "0.1.0"
 description = "RTL-Level Information Flow Tracking for Verilog code"
 readme = "README.md"
 requires-python = ">=3.12"
-dependencies = []
+dependencies = [
+  # `click` for command-line interface.
+  "click>=8.1.7,<9",
+  # `pyslang` for parsing Verilog code with `slang`.
+  "pyslang>=7.0.1,<8",
+  # `pyverilog` for parsing Verilog code with `pyverilog`.
+  "pyverilog>=1.3.0,<2",
+]
 
 [project.optional-dependencies]
-dev = [
-    "ruff",
-    "pytest",
-    "pyright",
-]
+dev = ["ruff", "pytest", "pyright"]
 
 [tool.ruff]
-select = [
-    "ALL",
-]
+select = ["ALL"]
 
 [tool.ruff.lint.per-file-ignores]
 "./tests/**/*.py" = [

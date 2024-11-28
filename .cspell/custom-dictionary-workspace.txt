@@ -1,2 +1,7 @@
 # Custom Dictionary Words
+endmodule
+pyright
+pyslang
+pytest
+pyverilog
 verilog
