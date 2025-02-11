@@ -112,7 +112,7 @@ def test_single_bit_xor_operation() -> None:
             output wire f_tag_conservative_prop0_ABCD,
             output wire f_tag_precise_prop0_ABCD
         );
-            assign f = g & h;
+            assign f = g ^ h;
             assign f_tag_conservative_prop0_ABCD = (
                 g_tag_conservative_prop0_ABCD | h_tag_conservative_prop0_ABCD
             );
@@ -154,6 +154,115 @@ def test_single_bit_not_operation() -> None:
             );
             assign f_tag_precise_prop0_ABCD = (
                 g_tag_conservative_prop0_ABCD
+            );
+        endmodule
+    """
+
+    raise NotImplementedError
+
+
+def test_single_bit_2mux_composition_operation() -> None:
+    """Test tagging on a sample 2-bit mux design."""
+    # Source: (Hu et al. 2011), Figure 3, Part a.
+    input_module = """
+        module basic_2mux (
+            input wire S,
+            input wire A,
+            input wire B,
+            output wire O
+        );
+            assign C = S & A;
+            assign D = ~S & B;
+            assign O = C | D;
+        endmodule
+    """
+
+    # TODO: Figure out what the correct tag outputs are.
+    expected_output = """
+        module basic_2mux (
+            input wire S,
+            input wire S_tag_conservative_prop0_ABCD,
+            input wire S_tag_precise_prop0_ABCD,
+            input wire A,
+            input wire A_tag_conservative_prop0_ABCD,
+            input wire A_tag_precise_prop0_ABCD,
+            input wire B,
+            input wire B_tag_conservative_prop0_ABCD,
+            input wire B_tag_precise_prop0_ABCD,
+            output wire O,
+            output wire O_tag_conservative_prop0_ABCD,
+            output wire O_tag_precise_prop0_ABCD
+        );
+            assign C = S & A;
+            assign C_tag_conservative_prop0_ABCD = (
+                S_tag_conservative_prop0_ABCD | A_tag_conservative_prop0_ABCD
+            );
+            assign C_tag_precise_prop0_ABCD = (
+                (S_tag_precise_prop0_ABCD & A_tag_precise_prop0_ABCD)
+                | (S & A_tag_precise_prop0_ABCD)
+                | (A & S_tag_precise_prop0_ABCD)
+            );
+
+            assign D = ~S & B;
+            assign D_tag_conservative_prop0_ABCD = (
+                S_tag_conservative_prop0_ABCD | B_tag_conservative_prop0_ABCD
+            );
+            assign D_tag_precise_prop0_ABCD = (
+                (S_tag_precise_prop0_ABCD & B_tag_precise_prop0_ABCD)
+                | ((~S) & B_tag_precise_prop0_ABCD)
+                | (B & S_tag_precise_prop0_ABCD)
+            );
+
+            assign O = C | D;
+            assign O_tag_conservative_prop0_ABCD = (
+                C_tag_conservative_prop0_ABCD | D_tag_conservative_prop0_ABCD
+            );
+            assign O_tag_precise_prop0_ABCD = (
+                (C_tag_precise_prop0_ABCD & D_tag_precise_prop0_ABCD)
+                | ((~C) & D_tag_precise_prop0_ABCD)
+                | ((~D) & C_tag_precise_prop0_ABCD)
+            );
+        endmodule
+    """
+
+    raise NotImplementedError
+
+
+def test_single_bit_composition_operation() -> None:
+    """Test tagging on composition of many operations."""
+    input_module = """
+        module and_gate (
+            input wire w,
+            input wire x,
+            input wire y,
+            output wire z
+        );
+            assign z = (x & y) | (~w);
+        endmodule
+    """
+
+    # TODO: Figure out what the correct tag outputs are.
+    expected_output = """
+        module and_gate (
+            input wire w,
+            input wire w_tag_conservative_prop0_ABCD,
+            input wire w_tag_precise_prop0_ABCD,
+            input wire x,
+            input wire x_tag_conservative_prop0_ABCD,
+            input wire x_tag_precise_prop0_ABCD,
+            input wire y,
+            input wire y_tag_conservative_prop0_ABCD,
+            input wire y_tag_precise_prop0_ABCD,
+            output wire z,
+            output wire z_tag_conservative_prop0_ABCD,
+            output wire z_tag_precise_prop0_ABCD
+        );
+            assign z = (x & y) | (~w);
+            assign z_tag_conservative_prop0_ABCD = (
+                ...
+            );
+            assign z_tag_precise_prop0_ABCD = (
+                ...
             );
         endmodule
     """

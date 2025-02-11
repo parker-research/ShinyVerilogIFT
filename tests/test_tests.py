@@ -1,7 +1,6 @@
 """Basic tests for the tests module."""
 
-# TODO: Try import pyslang
-import pyverilog
+import pyslang
 
 
 def test_always_passes() -> None:
@@ -11,7 +10,6 @@ def test_always_passes() -> None:
 
 def test_verilog_equality() -> None:
     """Test that two Verilog modules with minor differences are evaluated as equal."""
-
     input_1 = """
         module and_gate (
             input wire x,
@@ -34,13 +32,17 @@ def test_verilog_equality() -> None:
         endmodule
     """
 
-    # st1 = pyslang.SyntaxTree.fromText(input_1)
-    # st1_again = pyslang.SyntaxTree.fromText(input_1)
-    # st1_stripped = pyslang.SyntaxTree.fromText(input_1.strip())
+    st1 = pyslang.SyntaxTree.fromText(input_1)
+    st1_again = pyslang.SyntaxTree.fromText(input_1)
+    st1_stripped = pyslang.SyntaxTree.fromText(input_1.strip())
 
-    # assert st1 == st1_again
-    # assert st1 == st1_stripped
+    assert st1.root.isEquivalentTo(st1_again.root)
+    assert st1.root.isEquivalentTo(st1_stripped.root)
+    assert st1_again.root.isEquivalentTo(st1_stripped.root)
 
-    # st2 = pyslang.SyntaxTree.fromText(input_2)
+    st2 = pyslang.SyntaxTree.fromText(input_2)
+    st2_stripped = pyslang.SyntaxTree.fromText(input_2.strip())
 
-    pyverilog_input_1 = pyverilog.utils.verilog.read_verilog(input_1)
+    assert st1_stripped.root.isEquivalentTo(st2.root)
+    assert st1.root.isEquivalentTo(st2.root)
+    assert st1.root.isEquivalentTo(st2_stripped.root)
