@@ -2,7 +2,7 @@
     "cSpell.customDictionaries": {
         "custom-dictionary-workspace": {
             "name": "custom-dictionary-workspace",
-            "path": "${workspaceFolder:ShinyVerilogIFT}/.cspell/custom-dictionary-workspace.txt",
+            "path": "${workspaceFolder}/.cspell/custom-dictionary-workspace.txt",
             "addWords": true,
             "scope": "workspace"
         }
@@ -23,5 +23,8 @@
         "**/.mypy_cache": true,
         "**/.ruff_cache": true,
         "**/.venv": true,
-    }
+    },
+    "[rust]": {
+        "editor.formatOnSave": true,
+    },
 }
