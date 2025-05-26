@@ -42,6 +42,22 @@ def test_single_bit_and_operation() -> None:
         endmodule
     """
 
+    expected_output_conservative_only = """
+        module and_gate (
+            input wire x,
+            input wire x_tag_conservative_prop0_ABCD,
+            input wire y,
+            input wire y_tag_conservative_prop0_ABCD,
+            output wire z,
+            output wire z_tag_conservative_prop0_ABCD
+        );
+            assign z = x & y;
+            assign z_tag_conservative_prop0_ABCD = (
+                x_tag_conservative_prop0_ABCD | y_tag_conservative_prop0_ABCD
+            );
+        endmodule
+    """
+
     raise NotImplementedError
 
 
